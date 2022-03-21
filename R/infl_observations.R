@@ -17,20 +17,20 @@ infl_observations <- function(mod, threshold = 0.5, ...) {
 ##' @param ... placeholder
 ##' @importFrom stats cooks.distance
 infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
-  # Cook's distance berechnen
+  # calculate Cook's distance
   cooks_distance <- cooks.distance(mod)
-  # Index der auffälligen Beobachtungen bestimmen
+  # determin index of noticeable observations
   index <- which(cooks_distance > threshold)
   attributes(index) <- NULL
   cooks_distance_selected <- cooks_distance[index]
-  # die Werte der auffälligen Beobachtungen bestimmen
+  # determin the value of noticeable observations
   values <- mod$model[index, 1]
-  # das Jahr der auffälligen Beobachtung bestimmen
-  jahr <- data[index, "Jahr"]
+  # determin the year of noticeable observations
+  year <- data[index, "Year"]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,
-       infl_obs_jahr = jahr)
+       infl_obs_year = year)
 }
 
 ##' Used in method infl_observations as gls model
@@ -42,7 +42,7 @@ infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
 ##' @param varname placeholder
 infl_observations.gls <- function(mod, used_formula, cor_structure,
                                   threshold = 0.5, data, varname) {
-  # Cook's distance calculated
+  # calculate Cook's distance
   cooks_distance <- CookD_gls(mod, used_formula = used_formula,
                               cor_structure = cor_structure, data = data,
                               plot = FALSE)
@@ -54,10 +54,10 @@ infl_observations.gls <- function(mod, used_formula, cor_structure,
   model_matrix <- data
   # determin values of noticable observations
   values <- model_matrix[index, varname]
-  # determin Jahr of noticable observations
-  jahr <- data[index, "Jahr"]
+  # determin year of noticable observations
+  year <- data[index, "Year"]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,
-       infl_obs_jahr = jahr)
+       infl_obs_year = year)
 }

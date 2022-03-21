@@ -12,7 +12,7 @@
 \item{alpha}{Level of significance}
 }
 \value{
-String with trendresults from lm
+String with trend results from lm
 }
 \description{
 Extract trend from lm-objects

@@ -9,11 +9,11 @@ compute_trend(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
 \arguments{
 \item{dat}{Dataset}
 
-\item{varname}{Columnames of dataset}
+\item{varname}{list with variablenames from the dataset}
 
-\item{log_trans}{logical gibt an, ob die zu modellierenden Daten log-transformiert sind}
+\item{log_trans}{logical indicates if data is log-transformed}
 
-\item{calc_infl_obs}{logical}
+\item{calc_infl_obs}{logical includes influential observations}
 }
 \value{
 A list with trendgraphs, variablenames, model and information about the results

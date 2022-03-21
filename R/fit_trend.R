@@ -1,7 +1,7 @@
-globalVariables(c("Jahr", "prediction"))
+globalVariables(c("Year", "prediction"))
 
 ##' Calculate the model
-##' @param dat data.frame with data (Colnames Zeit, Jahr, ID must be available)
+##' @param dat data.frame with data (Colnames Time, Year, ID must be available)
 ##' @param varname String with variablenames
 ##' @param alpha Alphavalue for area of rejection
 ##' @importFrom stats as.formula lm
@@ -11,9 +11,9 @@ globalVariables(c("Jahr", "prediction"))
 fit_trend <- function(dat, varname, alpha = 0.05){
 
   ## quadratic model formula
-  mod_form_quadratic <- as.formula(sprintf("%s ~ Zeit + I(Zeit^2)", varname))
+  mod_form_quadratic <- as.formula(sprintf("%s ~ Time + I(Time^2)", varname))
   ## linear model forumla
-  mod_form_linear <- as.formula(sprintf("%s ~ Zeit", varname))
+  mod_form_linear <- as.formula(sprintf("%s ~ Time", varname))
 
   ## Decide by number of observations whether a quadratic or linear term is used
   target_var <- dat[, varname]
@@ -37,12 +37,12 @@ fit_trend <- function(dat, varname, alpha = 0.05){
     if (easy) { # Quadratischer Term wegen n < 12 gar nicht erlaubt
       if (DW$p[1] < alpha ) { # d.h signifikante Autokorrelation 1. Ordnung
         ## Korrelationsstruktur festlegen
-        cor_dat <- corAR1(form = ~ Zeit|ID)
+        cor_dat <- corAR1(form = ~ Time|ID)
         mod <- gls(mod_form_linear, data = dat, method = "ML", correlation = cor_dat)
       } else {
         if (DW$p[2] < alpha ) { # d.h signifikante Autokorrelation 2. Ordnung
           ## Korrelationsstruktur festlegen
-          cor_dat <- corARMA(form = ~ Zeit|ID, p = 2)
+          cor_dat <- corARMA(form = ~ Time|ID, p = 2)
           mod <- gls(mod_form_linear, data = dat, method="ML", correlation=cor_dat)
         } else { # d.h keine signifikante Autokorrelation(bis 2. Ordnung) nachweisbar
           mod <- lm(mod_form_linear, dat)
@@ -54,7 +54,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
       if (DW$p[1] < alpha ) { # d.h signifikante Autokorrelation 1. Ordnung
 
         ## Korrelationsstruktur festlegen
-        cor_dat <- corAR1(form = ~ Zeit|ID)
+        cor_dat <- corAR1(form = ~ Time|ID)
 
         ## AR1 mit ML fitten
         mod <- gls(mod_form, data = dat, method = "ML", correlation = cor_dat)
@@ -62,9 +62,9 @@ fit_trend <- function(dat, varname, alpha = 0.05){
 
         ## Pruefe ob beta2 signifikant von null verschieden
         smod <- summary(mod)
-        beta2 <- smod$tTable["I(Zeit^2)", "Value"]
+        beta2 <- smod$tTable["I(Time^2)", "Value"]
         p_betas <- smod$tTable[, "p-value"]
-        p_beta2 <- p_betas["I(Zeit^2)"]
+        p_beta2 <- p_betas["I(Time^2)"]
         beta2_zero <- p_beta2 > alpha
 
         ## falls beta2 nicht signifikant oder nicht vorhanden, fitte ohne quadratischen Term
@@ -77,7 +77,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
 
         if (DW$p[2] < alpha ) { # d.h signifikante Autokorrelation 2. Ordnung
           ## Korrelationsstruktur festlegen
-          cor_dat <- corARMA(form = ~ Zeit|ID, p = 2)
+          cor_dat <- corARMA(form = ~ Time|ID, p = 2)
 
           ## AR1 mit ML fitten
           mod <- gls(mod_form_quadratic, data = dat, method = "ML", correlation = cor_dat)
@@ -85,9 +85,9 @@ fit_trend <- function(dat, varname, alpha = 0.05){
 
           ## Pruefe ob beta2 signifikant von null verschieden
           smod <- summary(mod)
-          beta2 <- smod$tTable["I(Zeit^2)", "Value"]
+          beta2 <- smod$tTable["I(Time^2)", "Value"]
           p_betas <- smod$tTable[, "p-value"]
-          p_beta2 <- p_betas["I(Zeit^2)"]
+          p_beta2 <- p_betas["I(Time^2)"]
           beta2_zero <- p_beta2 > alpha
 
           ## falls beta2 nicht signifikant, fitte ohne quadratischen Term
@@ -103,7 +103,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
           cor_dat <- NULL
           used_formula <- mod_form_quadratic
           mod_summary <- summary(mod)
-          betaP <- mod_summary$coefficients["I(Zeit^2)","Pr(>|t|)"]
+          betaP <- mod_summary$coefficients["I(Time^2)","Pr(>|t|)"]
 
           if (betaP > alpha) { ### LiMo(einfach)
             mod <- lm(mod_form_linear, dat)

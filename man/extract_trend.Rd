@@ -11,10 +11,10 @@ extract_trend(model, alpha, ...)
 
 \item{alpha}{Level of significance}
 
-\item{...}{zur Zeit nicht benutzt}
+\item{...}{zur Time nicht benutzt}
 }
 \value{
-String with trendresults
+String with trend results
 }
 \description{
 Method for extract trends from model

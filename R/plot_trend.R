@@ -16,7 +16,7 @@ plot_trend <- function(mod, df, log_trans = FALSE) {
     # transform log-transformed data back original scale
     # Skala zurück
     col_names <- colnames(df)
-    index <- !col_names %in% "Jahr"
+    index <- !col_names %in% "Year"
     df[, index] <- 10 ^ df[, index]
     # transforms the previous predictions back to the original scale
     df$prediction <- 10 ^ as.numeric(predict(mod))
@@ -24,13 +24,13 @@ plot_trend <- function(mod, df, log_trans = FALSE) {
     df$prediction <- as.numeric(predict(mod))
   }
   target <- names(df)[4]
-  ggplot(df, aes(x = Jahr)) +
+  ggplot(df, aes(x = Year)) +
     geom_point(aes_string(y = target)) +
     geom_line(aes_string(y = target), alpha = 0.3) +
     geom_line(aes(y = prediction), color = "darkgreen", size = 1.3) +
     ggtitle(substitute(paste(trend, ", Phi = (", p1,", ", p2, "), Modell = ", modell, ", ", R^2, " = ", rsquared),
                        list(trend = trend[[4]], p1 = phi[1], p2 = phi[2], modell = class(mod)[1], rsquared = formatC(max(0, rsq), format = "f", digits = 4)))) +
-    scale_x_continuous(breaks = round(seq(min(df$Jahr), max(df$Jahr), by = 1), 0)) +
+    scale_x_continuous(breaks = round(seq(min(df$Year), max(df$Year), by = 1), 0)) +
     ylab(gsub("(\\_)+", "\\ ", target)) +
     theme(plot.title = element_text(size = 24, vjust = 1.5),
           axis.title.x = element_text(size = 22, vjust = -.3),

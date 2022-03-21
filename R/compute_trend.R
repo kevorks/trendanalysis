@@ -1,9 +1,9 @@
 ##' Calculates the trend for data and variables
 ##' @descritpion Checks whether enough data is available and runs the model
 ##' @param dat Dataset
-##' @param varname Columnames of dataset
-##' @param log_trans logical gibt an, ob die zu modellierenden Daten log-transformiert sind
-##' @param calc_infl_obs logical
+##' @param varname list with variablenames from the dataset
+##' @param log_trans logical indicates if data is log-transformed
+##' @param calc_infl_obs logical includes influential observations
 ##' @importFrom stats na.omit
 ##' @importFrom ggplot2 ggplot geom_point aes_string
 ##' @return A list with trendgraphs, variablenames, model and information about the results
@@ -11,23 +11,23 @@ compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
 
   ## Variable numerisch kodieren
   dat[, varname] <- as.numeric(dat[ ,varname])
-  dat <- na.omit(dat[, c("Zeit", "Jahr", "ID", varname)])
+  dat <- na.omit(dat[, c("Time", "Year", "ID", varname)])
 
   ## check if enough datapoints are available
   enough_data <- check_n(dat[, varname, drop = TRUE])
 
   ## Results if not enough data is available
   if (!enough_data) {
-    return(list(plot = ggplot(dat) + geom_point(aes_string(x = "Jahr", y = varname)),
+    return(list(plot = ggplot(dat) + geom_point(aes_string(x = "Year", y = varname)),
                 varname = varname,
-                mod = NULL, trend = "Keine Trendanalyse moeglich",
+                mod = NULL, trend = "No trend analysis possible",
                 phi = c(NA, NA),
                 beta = list(beta0 = NA, beta1 = NA, beta2 = NA),
                 rsq = NA,
                 infl_obs_index = NA,
                 infl_obs_value = NA,
                 infl_obs_cookd = NA,
-                infl_obs_jahr = NA))
+                infl_obs_year = NA))
   }
   ## Fiting the model
   model_data <- fit_trend(dat, varname = varname)
@@ -44,7 +44,7 @@ compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
   } else {
     infl_obs <- list(infl_obs_index = NA, infl_obs_value = NA,
                      infl_obs_cookd = NA,
-                     infl_obs_jahr = NA)
+                     infl_obs_year = NA)
   }
 
   list(plot = plot_trend(mod, df = dat, log_trans = log_trans), varname = varname,
@@ -53,5 +53,5 @@ compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
        infl_obs_index = paste0(infl_obs[[1]], collapse = ", "),
        infl_obs_value = paste(infl_obs[[2]], collapse = ", "),
        infl_obs_cookd = paste(infl_obs[[3]], collapse = ", "),
-       infl_obs_jahr = paste(infl_obs[[4]], collapse = ", "))
+       infl_obs_year = paste(infl_obs[[4]], collapse = ", "))
 }

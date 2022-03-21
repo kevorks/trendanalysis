@@ -28,9 +28,9 @@ CookD_gls <- function (model, group = NULL, plot = TRUE, idn = 3, newwd = TRUE,
   if (is.null(group) || group %in% c("NULL", "")) {
     rn <- rownames(mdf)
     LOOmp <- lapply(rn, function(x) mymodelparm_default_imp(gls(model = used_formula,
-                                                            data = mdf[rn != x, ],
-                                                            correlation = cor_structure,
-                                                            method = "ML")))
+                                                                data = mdf[rn != x, ],
+                                                                correlation = cor_structure,
+                                                                method = "ML")))
   }
   else {
     rn <- unique(mdf[, group])
@@ -58,4 +58,3 @@ CookD_gls <- function (model, group = NULL, plot = TRUE, idn = 3, newwd = TRUE,
   }
   return(invisible(CookD))
 }
-

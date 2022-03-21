@@ -15,15 +15,15 @@
 #' @importFrom grDevices jpeg dev.off
 #' @export
 trenda <- function(data_dir, plot_dir, result_name,
-                                 log_trans = FALSE) {
+                   log_trans = FALSE) {
   trend_files <- list.files(data_dir)
 
   ResTab <- data.frame(matrix(ncol = 13, nrow = 0))
   colnames(ResTab) <- c("File", "Index", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
-                        "Trend", "rQuadrat", "zu_entfernende_Beobachtungen_Index",
-                        "zu_entfernende_Beobachtungen_Werte",
-                        "Cooks_Distance_der_Beobachtungen",
-                        "zu_entfernende_Beobachtungen_Jahr"
+                        "Trend", "rSquared", "observations_to_remove_index",
+                        "observations_to_remove_value",
+                        "cooks_distance_of_observation",
+                        "observations_to_remove_year"
   )
 
 
@@ -37,7 +37,7 @@ trenda <- function(data_dir, plot_dir, result_name,
     print(sprintf("Data:----------%s", trend_file)) # Exceltitle
 
     # read dataset
-    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";")
+    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";") #encoding = "UTF-8"
 
     # show strucutre of data to be analysed
     print(str(dat))
@@ -46,14 +46,14 @@ trenda <- function(data_dir, plot_dir, result_name,
     # dots have to be replaced in the variablenames for the plot function
     names(dat) <- gsub("\\.", "\\_", names(dat))
 
-    # all variables except for ID, Zeit and Jahr are environmental indicators
-    varnames <- setdiff(names(dat), c("ID", "Zeit", "Jahr"))
+    # all variables except for ID, Time and Year are environmental indicators
+    varnames <- setdiff(names(dat), c("ID", "Time", "Year"))
 
     # ID is needed for the correlationstructure in the gls-function
     dat$ID <- 1
 
-    # Zeit begins at 0
-    dat$Zeit <- dat$Jahr - min(dat$Jahr)
+    # Time begins at 0
+    dat$Time <- dat$Year - min(dat$Year)
 
     for(varname in varnames){
       print(varname)
@@ -70,11 +70,11 @@ trenda <- function(data_dir, plot_dir, result_name,
       ResTab[z,"Phi1"] <<- res$phi[1]
       ResTab[z,"Phi2"] <<- res$phi[2]
       ResTab[z,"Trend"] <<- res$trend
-      ResTab[z,"rQuadrat"] <<- res$rsq
-      ResTab[z, "zu_entfernende_Beobachtungen_Index"] <<- res$infl_obs_index
-      ResTab[z, "zu_entfernende_Beobachtungen_Werte"] <<- res$infl_obs_value
-      ResTab[z, "Cooks_Distance_der_Beobachtungen"] <<- res$infl_obs_cookd
-      ResTab[z, "zu_entfernende_Beobachtungen_Jahr"] <<- res$infl_obs_jahr
+      ResTab[z,"rSquared"] <<- res$rsq
+      ResTab[z, "observations_to_remove_index"] <<- res$infl_obs_index
+      ResTab[z, "observations_to_remove_value"] <<- res$infl_obs_value
+      ResTab[z, "cooks_distance_of_observation"] <<- res$infl_obs_cookd
+      ResTab[z, "observations_to_remove_year"] <<- res$infl_obs_year
 
       # save trendgraphs
       if (log_trans) {
@@ -91,7 +91,7 @@ trenda <- function(data_dir, plot_dir, result_name,
 
     }
 
-})
+  })
 
   summary(ResTab)
 
