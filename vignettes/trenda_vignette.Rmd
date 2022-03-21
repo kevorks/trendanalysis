@@ -1,8 +1,8 @@
 ---
-title: "trend-vignette"
+title: "Introduction to trenda"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{trend-vignette}
+  %\VignetteIndexEntry{trenda_vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,5 +15,5 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(ba2)
+library(trenda)
 ```
