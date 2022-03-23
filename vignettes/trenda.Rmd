@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Introduction to trenda"
 output: rmarkdown::html_vignette
@@ -19,3 +20,26 @@ climate change related data
 ```{r out.width="800px", echo=FALSE}
 knitr::include_graphics("diagram.JPG")
 ```
+=======
+---
+title: "Introduction to trenda"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to trenda}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,  comment = "#>")
+options(tibble.print_min = 6L, tibble.print_max = 6L, digits = 3)
+library(trenda)
+```
+This package follows a decicion tree to evaluate data and predict trends in 
+climate change related data
+
+
+```{r out.width="800px", echo=FALSE}
+knitr::include_graphics("diagram.JPG")
+```
+>>>>>>> 3009302fe227bbffce700fdebf0b01c92f77b4a7
