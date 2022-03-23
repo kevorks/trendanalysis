@@ -2,16 +2,16 @@
 % Please edit documentation in R/extract_phi.R
 \name{extract_phi}
 \alias{extract_phi}
-\title{Extrahiere phi aus gls - Modell}
+\title{Extract phi from the gls model}
 \usage{
 extract_phi(mod)
 }
 \arguments{
-\item{mod}{gls-Modell}
+\item{mod}{gls model}
 }
 \value{
-phi Parameter der Korrelation
+phi parameter of correlation
 }
 \description{
-Extrahiere phi aus gls - Modell
+Extract phi from the gls model
 }

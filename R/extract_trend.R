@@ -1,7 +1,7 @@
 ##' Method for extract trends from model
 ##' @param model gls or lm model
 ##' @param alpha Level of significance
-##' @param ... zur Time nicht benutzt
+##' @param ... placeholder
 ##' @return String with trend results
 extract_trend <- function(model, alpha, ...) {
   UseMethod("extract_trend")

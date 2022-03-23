@@ -7,7 +7,7 @@
 fit_trend(dat, varname, alpha = 0.05)
 }
 \arguments{
-\item{dat}{data.frame with data (Colnames Time, Year, ID must be available)}
+\item{dat}{data.frame with data (Colnames Time, Jahr, ID must be available)}
 
 \item{varname}{String with variablenames}
 

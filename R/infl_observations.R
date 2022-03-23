@@ -1,7 +1,7 @@
 #' Define influential observations according to Cook's distance
 #'
 #' @description All observations whose Cook's distance is greater than the threshold
-#' are specified#'
+#' are specified
 #' @param mod method lm or gls model
 #' @param threshold Threshold at which observations are considered influential
 #' @param ... placeholder
@@ -26,7 +26,7 @@ infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
   # determin the value of noticeable observations
   values <- mod$model[index, 1]
   # determin the year of noticeable observations
-  year <- data[index, "Year"]
+  year <- data[index, "Jahr"]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,
@@ -55,7 +55,7 @@ infl_observations.gls <- function(mod, used_formula, cor_structure,
   # determin values of noticable observations
   values <- model_matrix[index, varname]
   # determin year of noticable observations
-  year <- data[index, "Year"]
+  year <- data[index, "Jahr"]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,

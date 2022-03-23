@@ -18,5 +18,5 @@ List with indices and observations
 }
 \description{
 All observations whose Cook's distance is greater than the threshold
-are specified#'
+are specified
 }

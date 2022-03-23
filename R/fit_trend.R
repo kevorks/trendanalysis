@@ -1,7 +1,7 @@
-globalVariables(c("Year", "prediction"))
+globalVariables(c("Jahr", "prediction"))
 
 ##' Calculate the model
-##' @param dat data.frame with data (Colnames Time, Year, ID must be available)
+##' @param dat data.frame with data (Colnames Time, Jahr, ID must be available)
 ##' @param varname String with variablenames
 ##' @param alpha Alphavalue for area of rejection
 ##' @importFrom stats as.formula lm
@@ -29,83 +29,88 @@ fit_trend <- function(dat, varname, alpha = 0.05){
   DW <- dwt(lm(mod_form, data = dat), max.lag = 2) # check if AR1 equal to AR2
 
   cor_dat <- NULL
-  # es kann Extremfälle geben, bei denen alle Werte gleich sind (z.B. alle 0)
-  # dann kann der Durbin-Watson-Test keinen p-Wert berechnen und das lm auch
-  # nicht. In diesem Fall wird keine Autokorrelation und nur ein lineares
-  # Modell angenommen
+  # In some extreme cases it is possible for all values to be equal (eg. 0)
+  # In this case the DWT and lm cant calculate a p-value
+  # Therefore no autocorrelation is accepted and a linear model is used
   if (!is.na(DW$p[1])) {
-    if (easy) { # Quadratischer Term wegen n < 12 gar nicht erlaubt
-      if (DW$p[1] < alpha ) { # d.h signifikante Autokorrelation 1. Ordnung
-        ## Korrelationsstruktur festlegen
+    # Quadratic  term for n < 12 not allowed
+    if (easy) {
+      # significant autocorrelation 1. Order
+      if (DW$p[1] < alpha ) {
+        ## define correlation structure
         cor_dat <- corAR1(form = ~ Time|ID)
         mod <- gls(mod_form_linear, data = dat, method = "ML", correlation = cor_dat)
       } else {
-        if (DW$p[2] < alpha ) { # d.h signifikante Autokorrelation 2. Ordnung
-          ## Korrelationsstruktur festlegen
+        # significant autocorrelation 2. order
+        if (DW$p[2] < alpha ) {
+          # define correlation structure
           cor_dat <- corARMA(form = ~ Time|ID, p = 2)
           mod <- gls(mod_form_linear, data = dat, method="ML", correlation=cor_dat)
-        } else { # d.h keine signifikante Autokorrelation(bis 2. Ordnung) nachweisbar
+        } else {
+          # no significant autocorrelation (up to 2nd order) can be shown
           mod <- lm(mod_form_linear, dat)
           cor_dat <- NULL
         }
       }
       used_formula <- mod_form_linear
-    } else { # Quadratischer Term grundsaetzlich schon moeglich, beta2 wird aber auf signifikanz geprueft
-      if (DW$p[1] < alpha ) { # d.h signifikante Autokorrelation 1. Ordnung
+    } else {
+      # Quadratic term is possible beta2 is checked for significance
+      # significant autocorrelation 2. order
+      if (DW$p[1] < alpha ) {
 
-        ## Korrelationsstruktur festlegen
+        ## define correlation
         cor_dat <- corAR1(form = ~ Time|ID)
 
-        ## AR1 mit ML fitten
+        ## AR1 fitted with ML
         mod <- gls(mod_form, data = dat, method = "ML", correlation = cor_dat)
         used_formula <- mod_form
 
-        ## Pruefe ob beta2 signifikant von null verschieden
+        ## Check if beta2 is significantly different from 0
         smod <- summary(mod)
         beta2 <- smod$tTable["I(Time^2)", "Value"]
         p_betas <- smod$tTable[, "p-value"]
         p_beta2 <- p_betas["I(Time^2)"]
         beta2_zero <- p_beta2 > alpha
 
-        ## falls beta2 nicht signifikant oder nicht vorhanden, fitte ohne quadratischen Term
+        ## if beta2 is not significant or not available fit without quadratic term
         if( beta2_zero) {
           mod <- gls(mod_form_linear, data = dat, method = "ML", correlation = cor_dat)
           used_formula <- mod_form_linear
         }
 
       } else {
-
-        if (DW$p[2] < alpha ) { # d.h signifikante Autokorrelation 2. Ordnung
-          ## Korrelationsstruktur festlegen
+        # significant autocorrelation 2. order
+        if (DW$p[2] < alpha ) {
+          ## define correlation structure
           cor_dat <- corARMA(form = ~ Time|ID, p = 2)
 
-          ## AR1 mit ML fitten
+          ## AR1 fitted with ML
           mod <- gls(mod_form_quadratic, data = dat, method = "ML", correlation = cor_dat)
           used_formula <- mod_form_quadratic
 
-          ## Pruefe ob beta2 signifikant von null verschieden
+          ## Check if beta 2 is significantly different form 0
           smod <- summary(mod)
           beta2 <- smod$tTable["I(Time^2)", "Value"]
           p_betas <- smod$tTable[, "p-value"]
           p_beta2 <- p_betas["I(Time^2)"]
           beta2_zero <- p_beta2 > alpha
 
-          ## falls beta2 nicht signifikant, fitte ohne quadratischen Term
+          ## if beta2 is not significant fit without quadratic term
           if (beta2_zero) {
             mod <- gls(mod_form_linear, data = dat, method = "ML", correlation = cor_dat)
             used_formula <- mod_form_linear
           }
 
-        } else { # d.h keine signifikante Autokorrelation(bis 2. Ordnung) nachweisbar
-
+        } else {
+          # no significant autocorrelation (up to 2. order) can be shown
           ### LiMo(quad)
           mod <- lm(mod_form_quadratic, dat)
           cor_dat <- NULL
           used_formula <- mod_form_quadratic
           mod_summary <- summary(mod)
           betaP <- mod_summary$coefficients["I(Time^2)","Pr(>|t|)"]
-
-          if (betaP > alpha) { ### LiMo(einfach)
+          ### LiMo(simple)
+          if (betaP > alpha) {
             mod <- lm(mod_form_linear, dat)
             used_formula <- mod_form_linear
           }
@@ -114,7 +119,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
       }
     }
   } else {
-    # Der Fall wenn kein DW-Test berechnet werden kann
+    # If DW-Test cant be calculated fit a linear model
     mod <- lm(mod_form_linear, dat)
     used_formula <- mod_form_linear
     cor_dat <- NULL

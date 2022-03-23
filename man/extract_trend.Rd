@@ -11,7 +11,7 @@ extract_trend(model, alpha, ...)
 
 \item{alpha}{Level of significance}
 
-\item{...}{zur Time nicht benutzt}
+\item{...}{placeholder}
 }
 \value{
 String with trend results

@@ -4,22 +4,10 @@
 \alias{trenda_obs}
 \title{Function to calculate trend analyses (without influential observations)}
 \usage{
-trenda_obs(
-  data_dir,
-  plot_dir,
-  result_name,
-  log_trans = FALSE,
-  res_tab_file,
-  calc_infl_obs = TRUE
-)
+trenda_obs(data_dir, log_trans = FALSE, res_tab_file, calc_infl_obs = TRUE)
 }
 \arguments{
 \item{data_dir}{directory where the data is stored}
-
-\item{plot_dir}{directory where the generated plots are saved}
-
-\item{result_name}{directory and name (without ending) where the result table
-is stored}
 
 \item{log_trans}{logical if log-transformed values were used (TRUE leads to
 the adjustments for plot function)}

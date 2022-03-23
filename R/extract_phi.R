@@ -1,13 +1,15 @@
-##' Extrahiere phi aus gls - Modell
-##' @param mod gls-Modell
+##' Extract phi from the gls model
+##' @param mod gls model
 ##' @importFrom stats coef
-##' @return phi Parameter der Korrelation
+##' @return phi parameter of correlation
 extract_phi <- function(mod) {
-  if (inherits(mod, "gls")) { # Die Funktion ist fuer gls-Objekt spezifiziert
+  # the function is specified for gls objects
+  if (inherits(mod, "gls")) {
     x <- summary(mod$modelStruct)$corStruct
     class(x) <- attr(x, "oClass")
     phi <- round(coef(x, unconstrained = FALSE), 2)
-  } else { # fuer lineares Modell betrdgt phi eben 0
+    # phi is 0 for linear model
+  } else {
     phi <- 0
   }
   if (length(phi) == 1) {phi[2] <- 0}

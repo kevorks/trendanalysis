@@ -1,5 +1,5 @@
 ##' Calculates the trend for data and variables
-##' @descritpion Checks whether enough data is available and runs the model
+##' @description Checks whether enough data is available and runs the model
 ##' @param dat Dataset
 ##' @param varname list with variablenames from the dataset
 ##' @param log_trans logical indicates if data is log-transformed
@@ -9,16 +9,16 @@
 ##' @return A list with trendgraphs, variablenames, model and information about the results
 compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE){
 
-  ## Variable numerisch kodieren
+  ## Code variable as numeric
   dat[, varname] <- as.numeric(dat[ ,varname])
-  dat <- na.omit(dat[, c("Time", "Year", "ID", varname)])
+  dat <- na.omit(dat[, c("Time", "Jahr", "ID", varname)])
 
-  ## check if enough datapoints are available
+  ## Check if enough datapoints are available
   enough_data <- check_n(dat[, varname, drop = TRUE])
 
   ## Results if not enough data is available
   if (!enough_data) {
-    return(list(plot = ggplot(dat) + geom_point(aes_string(x = "Year", y = varname)),
+    return(list(plot = ggplot(dat) + geom_point(aes_string(x = "Jahr", y = varname)),
                 varname = varname,
                 mod = NULL, trend = "No trend analysis possible",
                 phi = c(NA, NA),

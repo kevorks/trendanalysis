@@ -19,5 +19,5 @@ compute_trend(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
 A list with trendgraphs, variablenames, model and information about the results
 }
 \description{
-Calculates the trend for data and variables
+Checks whether enough data is available and runs the model
 }
