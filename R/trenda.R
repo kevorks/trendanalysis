@@ -89,7 +89,7 @@ trenda <- function(data_dir, log_trans = FALSE) {
       } else {
         name_file <- abbreviate(trend_file, 8)
       }
-      jpeg(file = sprintf("%s%s_%s.jpeg", plot_dir, name_file, varname),
+      jpeg(filename = sprintf("%s%s_%s.jpeg", plot_dir, name_file, varname),
            width = 800, height = 800, quality = 640000)
       plot(res$plot)
       dev.off()

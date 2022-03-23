@@ -29,7 +29,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
   DW <- dwt(lm(mod_form, data = dat), max.lag = 2) # check if AR1 equal to AR2
 
   cor_dat <- NULL
-  # In some extreme cases it is possible for all values to be equal (eg. 0)
+  # In some extreme cases it is possible for all values to be equal (or. 0)
   # In this case the DWT and lm cant calculate a p-value
   # Therefore no autocorrelation is accepted and a linear model is used
   if (!is.na(DW$p[1])) {
@@ -45,7 +45,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
         if (DW$p[2] < alpha ) {
           # define correlation structure
           cor_dat <- corARMA(form = ~ Time|ID, p = 2)
-          mod <- gls(mod_form_linear, data = dat, method="ML", correlation=cor_dat)
+          mod <- gls(mod_form_linear, data = dat, method="ML", correlation = cor_dat)
         } else {
           # no significant autocorrelation (up to 2nd order) can be shown
           mod <- lm(mod_form_linear, dat)
