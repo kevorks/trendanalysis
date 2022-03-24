@@ -11,17 +11,18 @@
 #' @export
 #'
 
-trenda <- function(data_dir, log_trans = FALSE) {
-  if (!log_trans) {
-    dir.create(paste0(data_dir, Sys.Date(), "results_standard"))
-    plot_dir <- paste0(data_dir, "results_standard/")
-    result_name <- paste0(plot_dir, "/res_tab_standard_")
-  } else {
-    dir.create(paste0(data_dir, "results_log"))
-    plot_dir <- paste0(data_dir,"results_log/")
-    result_name <- paste0(plot_dir, "/res_tab_log_")
+trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE) {
+  if(create_dir) {
+    if (!log_trans) {
+     dir.create(paste0(data_dir, Sys.Date(), "_results_standard"))
+     plot_dir <- paste0(data_dir, Sys.Date(), "_results_standard/")
+     result_name <- paste0(plot_dir, "res_tab_standard_")
+   } else {
+     dir.create(paste0(data_dir, Sys.Date(), "_results_log"))
+     plot_dir <- paste0(data_dir, Sys.Date(), "_results_log/")
+     result_name <- paste0(plot_dir, "res_tab_log_")
   }
-
+}
 #  plot_dir <- dir.create(paste(data_dir, ))
   trend_files <- list.files(data_dir, pattern = "*.csv")
 
@@ -89,11 +90,12 @@ trenda <- function(data_dir, log_trans = FALSE) {
       } else {
         name_file <- abbreviate(trend_file, 8)
       }
+      if (create_dir) {
       jpeg(filename = sprintf("%s%s_%s.jpeg", plot_dir, name_file, varname),
            width = 800, height = 800, quality = 640000)
       plot(res$plot)
       dev.off()
-
+      }
       z <<- z + 1
 
     }
@@ -101,11 +103,13 @@ trenda <- function(data_dir, log_trans = FALSE) {
   })
 
   summary(ResTab)
-
+  if (create_dir) {
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),
               sep = ";", dec = ",", row.names = FALSE)
-
+  } else {
+    return(ResTab)
+  }
   # check if all files were used
   trend_files == unique(ResTab$File)
 }

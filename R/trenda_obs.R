@@ -27,15 +27,15 @@
 trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
                        calc_infl_obs = TRUE) {
   if (!log_trans) {
-    dir.create(paste0(data_dir, Sys.Date(), "results_standard_obs"))
-    plot_dir <- paste0(data_dir, "results_standard_obs/")
-    result_name <- paste0(plot_dir, "/result_rable_standard_obs_")
+    dir.create(paste0(data_dir, Sys.Date(), "_results_standard_obs"))
+    plot_dir <- paste0(data_dir, Sys.Date(), "_results_standard_obs/")
+    result_name <- paste0(plot_dir, "result_rable_standard_obs_")
   } else {
-    dir.create(paste0(data_dir, "results_log_obs"))
-    plot_dir <- paste0(data_dir,"results_log_obs/")
-    result_name <- paste0(plot_dir, "/Result_Table_log_obs")
+    dir.create(paste0(data_dir, Sys.Date(), "_results_log_obs"))
+    plot_dir <- paste0(data_dir, Sys.Date(), "_results_log_obs/")
+    result_name <- paste0(plot_dir, "Result_Table_log_obs")
   }
-  trend_files <- list.files(data_dir)
+  trend_files <- list.files(data_dir, pattern = "*.csv")
 
   ResTab <- data.frame(matrix(ncol = 13, nrow = 0))
   colnames(ResTab) <- c("File", "Index", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
