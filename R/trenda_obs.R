@@ -23,7 +23,6 @@
 #' observations, the function trenda has to be run first on the same
 #' dataset.
 #' @importFrom grDevices dev.off jpeg
-#' @export trenda_obs
 trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
                        calc_infl_obs = TRUE) {
   if (!log_trans) {
@@ -33,7 +32,7 @@ trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
   } else {
     dir.create(paste0(data_dir, Sys.Date(), "_results_log_obs"))
     plot_dir <- paste0(data_dir, Sys.Date(), "_results_log_obs/")
-    result_name <- paste0(plot_dir, "Result_Table_log_obs")
+    result_name <- paste0(plot_dir, "result_table_log_obs")
   }
   trend_files <- list.files(data_dir, pattern = "*.csv")
 
@@ -133,6 +132,5 @@ trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
 
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),
-              sep = ";", dec = ",", row.names = FALSE)
-
+              sep = ";", dec = ",", row.names = FALSE, na = "")
 }

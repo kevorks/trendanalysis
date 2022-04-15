@@ -13,19 +13,19 @@ infl_observations <- function(mod, threshold = 0.5, ...) {
 ##' Used in method infl_observations as lm model
 ##' @param mod method used is lm
 ##' @param threshold level of significance
-##' @param data data which are used for to fit the model
+##' @param data data which are used to fit the model
 ##' @param ... placeholder
 ##' @importFrom stats cooks.distance
 infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
   # calculate Cook's distance
   cooks_distance <- cooks.distance(mod)
-  # determin index of noticeable observations
+  # determine index of noticeable observations
   index <- which(cooks_distance > threshold)
   attributes(index) <- NULL
   cooks_distance_selected <- cooks_distance[index]
-  # determin the value of noticeable observations
+  # determine the value of noticeable observations
   values <- mod$model[index, 1]
-  # determin the year of noticeable observations
+  # determine the year of noticeable observations
   year <- data[index, "Jahr"]
 
   list(infl_obs_index = index, infl_obs_value = values,

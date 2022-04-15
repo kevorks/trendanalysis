@@ -47,6 +47,7 @@ compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
                      infl_obs_year = NA)
   }
 
+
   list(plot = plot_trend(mod, df = dat, log_trans = log_trans), varname = varname,
        mod = mod, trend = extract_trend(mod)[4], phi = extract_phi(mod),
        beta = extract_trend(mod)[1:3], rsq = max(0,rsq),

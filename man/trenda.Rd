@@ -4,13 +4,18 @@
 \alias{trenda}
 \title{Function to perform trend analyses in time series}
 \usage{
-trenda(data_dir, log_trans = FALSE)
+trenda(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
 }
 \arguments{
 \item{data_dir}{directory where the data is stored}
 
 \item{log_trans}{logical if log-transformed values are used (TRUE leads to
 the adjustments for plot function)}
+
+\item{create_dir}{Creates a sub-folder in the specified data_dir (logical set to TRUE)}
+
+\item{calc_infl_obs}{Set to TRUE. Checks wheter influential observations should should be removed
+from dataset and calculated again.}
 }
 \value{
 the function does not return a value but stores the plot and table in

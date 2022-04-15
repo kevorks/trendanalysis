@@ -37,12 +37,13 @@ knitr::include_graphics("diagram.JPG")
 ```
 
 Example 
+Lets create a random dataset
 ```{r }
+#data$Jahr <- 
 
-trenda()
 ```
 Figure 1
 Data preperation
 
 Decicion tree 
-We check
+We check the 

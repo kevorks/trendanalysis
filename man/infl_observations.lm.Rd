@@ -11,7 +11,7 @@
 
 \item{threshold}{level of significance}
 
-\item{data}{data which are used for to fit the model}
+\item{data}{data which are used to fit the model}
 
 \item{...}{placeholder}
 }

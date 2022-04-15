@@ -4,6 +4,9 @@
 #' @param data_dir directory where the data is stored
 #' @param log_trans logical if log-transformed values are used (TRUE leads to
 #' the adjustments for plot function)
+#' @param create_dir Creates a sub-folder in the specified data_dir (logical set to TRUE)
+#' @param calc_infl_obs Set to TRUE. Checks wheter influential observations should should be removed
+#' from dataset and calculated again.
 #' @return the function does not return a value but stores the plot and table in
 #' the assigned directories
 #' @importFrom utils str write.table read.table read.csv2
@@ -11,7 +14,7 @@
 #' @export
 #'
 
-trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE) {
+trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE) {
   if(create_dir) {
     if (!log_trans) {
      dir.create(paste0(data_dir, Sys.Date(), "_results_standard"))
@@ -57,7 +60,7 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE) {
     # all variables except for ID, Time and Jahr are environmental indicators
     varnames <- setdiff(names(dat), c("ID", "Time", "Jahr"))
 
-    # ID is needed for the correlationstructure in the gls-function
+    # ID is needed for the correlation structure in the gls-function
     dat$ID <- 1
 
     # Time begins at 0
@@ -101,7 +104,6 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE) {
     }
 
   })
-
   summary(ResTab)
   if (create_dir) {
   write.table(ResTab,
@@ -112,4 +114,8 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE) {
   }
   # check if all files were used
   trend_files == unique(ResTab$File)
+  #perform trenda_obs
+  if (calc_infl_obs) {
+  trenda_obs(data_dir, log_trans, calc_infl_obs = FALSE, res_tab_file = paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"))
+  }
 }
