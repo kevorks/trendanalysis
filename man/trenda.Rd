@@ -7,20 +7,45 @@
 trenda(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
 }
 \arguments{
-\item{data_dir}{directory where the data is stored}
+\item{data_dir}{Directory where data is stored. The function requires data to
+be stored in a comma delimited csv file format and therefore only creates a
+list of csv files from the specified folder.}
 
-\item{log_trans}{logical if log-transformed values are used (TRUE leads to
-the adjustments for plot function)}
+\item{log_trans}{logical. Set to TRUE if data is already log10-transformed.
+If create_dir =TRUE a new folder named “_results_standard_log” will be created.
+Observables will be transformed back to their original form and plots will be
+adjusted for normal values.}
 
-\item{create_dir}{Creates a sub-folder in the specified data_dir (logical set to TRUE)}
+\item{create_dir}{logical. Creates a subfolder in the data_dir specified path if set to TRUE. Print to console if set to FALSE
+If log_trans and calc_infl_obs is set to TRUE the following folders are created:
+ “_results_standard”
+“_results_standard_obs”
+“_resulst_log”
+“_results_log_obs”}
 
-\item{calc_infl_obs}{Set to TRUE. Checks wheter influential observations should should be removed
-from dataset and calculated again.}
+\item{calc_infl_obs}{logical. TRUE removes the influential observations
+generated and stored in the file “res_tab_standard_”, Also creates a new
+folder named “_results_standard_obs”}
 }
 \value{
 the function does not return a value but stores the plot and table in
 the assigned directories
 }
 \description{
-Given a folder with csv files
+trenda performs a series of analysis to find trends
+in time-series related data by first checking the number of observations,
+performing the Generalized Durbin-Watson-Test to test for autocorrelation errors,
+performing AR(1) or ARMA to get the correlation strucutre before peforming
+a GLS
+}
+\details{
+Based on the number of observations (n<7, 7 >= n < 13, n >= 13)
+a (log) linear equation or linear & quadratic equation is is formed.
+A Durbin-Watson-Test for autocorrelation error with max.lag set to 2 is performed..
+If p-value of first order is smaller than  0.05 we assume significant autocorrelation
+of first order and perform AR(1) to get the correlation structure for the GLS model.
+If p >= 0.05 the 2nd p-value of the DWT is inspected and checked again for significance.
+If p >= 0.05 a linear regressionmodel is fitted. For p < 0.05 we assume
+autocorrelation errors of 2nd order and perform ARMA and pass the correlation structure to the
+GLS model.
 }

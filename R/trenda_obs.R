@@ -15,7 +15,12 @@
 #' calculated again. Can be useful to turn off as this information is not
 #' needed and sometimes the calculation of the influential observations for
 #' GLS models does not work
-#'
+#' @param create_dir logical. Creates a subfolder in the data_dir specified path if set to TRUE. Print to console if set to FALSE
+#' If log_trans and calc_infl_obs is set to TRUE the following folders are created:
+#'  “_results_standard”
+#' “_results_standard_obs”
+#' “_resulst_log”
+#' “_results_log_obs”
 #' @return the function does not return a value but stores the plot and table in
 #' the assigned directories
 #'
@@ -23,7 +28,7 @@
 #' observations, the function trenda has to be run first on the same
 #' dataset.
 #' @importFrom grDevices dev.off jpeg
-trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
+trenda_obs <- function(data_dir, log_trans = FALSE, create_dir = TRUE, res_tab_file,
                        calc_infl_obs = TRUE) {
   if (!log_trans) {
     dir.create(paste0(data_dir, Sys.Date(), "_results_standard_obs"))
@@ -67,7 +72,7 @@ trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
     ## all variables except for ID, Time and Jahr are environmental indicators
     varnames <- setdiff(names(dat), c("ID", "Time", "Jahr"))
 
-    ## ID is needed for the correlationstructure in the gls-function
+    ## ID is needed for the correlationstructure in the GLS-function
     dat$ID <- 1
 
     ## Time begins at 0
@@ -78,7 +83,7 @@ trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
 
       # Remove observations which have been identified as influential in the previous
       # analysis
-      # indices are saved as string, decimals are seperated by comma
+      # indices are saved as string, decimals are separated by comma
       index <- result_infl[result_infl$File == trend_file &
                              result_infl$Index == varname,
                            "observations_to_remove_index"]
@@ -123,14 +128,17 @@ trenda_obs <- function(data_dir, log_trans = FALSE, res_tab_file,
         plot(res$plot)
         dev.off()
         z <<- z + 1
-
       }
     }
   })
 
-  summary(ResTab)
-
+  #summary(ResTab)
+if (create_dir) {
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),
               sep = ";", dec = ",", row.names = FALSE, na = "")
+} else {
+  ResTab_Obs <- ResTab
+  return(ResTab_Obs)
+}
 }

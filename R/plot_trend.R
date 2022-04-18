@@ -14,7 +14,6 @@ plot_trend <- function(mod, df, log_trans = FALSE) {
   phi <- extract_phi(mod)
   if (log_trans) {
     # transform log-transformed data back original scale
-    # Skala zurück
     col_names <- colnames(df)
     index <- !col_names %in% "Jahr"
     df[, index] <- 10 ^ df[, index]

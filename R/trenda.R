@@ -1,18 +1,42 @@
 #' Function to perform trend analyses in time series
 #'
-#' @description Given a folder with csv files
-#' @param data_dir directory where the data is stored
-#' @param log_trans logical if log-transformed values are used (TRUE leads to
-#' the adjustments for plot function)
-#' @param create_dir Creates a sub-folder in the specified data_dir (logical set to TRUE)
-#' @param calc_infl_obs Set to TRUE. Checks wheter influential observations should should be removed
-#' from dataset and calculated again.
+#' @description trenda performs a series of analysis to find trends
+#' in time-series related data by first checking the number of observations,
+#' performing the Generalized Durbin-Watson-Test to test for autocorrelation errors,
+#' performing AR(1) or ARMA to get the correlation strucutre before peforming
+#' a GLS
+#' @param data_dir Directory where data is stored. The function requires data to
+#' be stored in a comma delimited csv file format and therefore only creates a
+#' list of csv files from the specified folder.
+#' @param log_trans logical. Set to TRUE if data is already log10-transformed.
+#' If create_dir =TRUE a new folder named “_results_standard_log” will be created.
+#' Observables will be transformed back to their original form and plots will be
+#' adjusted for normal values.
+#' @param calc_infl_obs logical. TRUE removes the influential observations
+#' generated and stored in the file “res_tab_standard_”, Also creates a new
+#' folder named “_results_standard_obs”
+#' @param create_dir logical. Creates a subfolder in the data_dir specified path if set to TRUE. Print to console if set to FALSE
+#' If log_trans and calc_infl_obs is set to TRUE the following folders are created:
+#'  “_results_standard”
+#' “_results_standard_obs”
+#' “_resulst_log”
+#' “_results_log_obs”
+#' @details Based on the number of observations (n<7, 7 >= n < 13, n >= 13)
+#' a (log) linear equation or linear & quadratic equation is is formed.
+#' A Durbin-Watson-Test for autocorrelation error with max.lag set to 2 is performed..
+#' If p-value of first order is smaller than  0.05 we assume significant autocorrelation
+#' of first order and perform AR(1) to get the correlation structure for the GLS model.
+#' If p >= 0.05 the 2nd p-value of the DWT is inspected and checked again for significance.
+#' If p >= 0.05 a linear regressionmodel is fitted. For p < 0.05 we assume
+#' autocorrelation errors of 2nd order and perform ARMA and pass the correlation structure to the
+#' GLS model.
+#'
+#'
 #' @return the function does not return a value but stores the plot and table in
 #' the assigned directories
 #' @importFrom utils str write.table read.table read.csv2
 #' @importFrom grDevices jpeg dev.off
 #' @export
-#'
 
 trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE) {
   if(create_dir) {
@@ -48,7 +72,7 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs
     print(sprintf("Data:----------%s", trend_file))
 
     # read dataset
-    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";")
+    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";", encoding = "LATIN1")
 
     # show structure of data to be analysed
     print(str(dat))
@@ -60,7 +84,7 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs
     # all variables except for ID, Time and Jahr are environmental indicators
     varnames <- setdiff(names(dat), c("ID", "Time", "Jahr"))
 
-    # ID is needed for the correlation structure in the gls-function
+    # ID is needed for the correlation structure in the GLS-function
     dat$ID <- 1
 
     # Time begins at 0
@@ -104,18 +128,19 @@ trenda <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl_obs
     }
 
   })
-  summary(ResTab)
+  #summary(ResTab)
   if (create_dir) {
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),
               sep = ";", dec = ",", row.names = FALSE)
   } else {
+    ResTab <- ResTab
     return(ResTab)
   }
   # check if all files were used
   trend_files == unique(ResTab$File)
   #perform trenda_obs
   if (calc_infl_obs) {
-  trenda_obs(data_dir, log_trans, calc_infl_obs = FALSE, res_tab_file = paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"))
+  trenda_obs(data_dir, log_trans, calc_infl_obs = FALSE, create_dir = create_dir, res_tab_file = paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"))
   }
 }

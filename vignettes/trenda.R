@@ -7,4 +7,6 @@ library(trenda)
 knitr::include_graphics("diagram.JPG")
 
 ## -----------------------------------------------------------------------------
+#data$Jahr <- 
+
 

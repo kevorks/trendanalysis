@@ -84,7 +84,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
           ## define correlation structure
           cor_dat <- corARMA(form = ~ Time|ID, p = 2)
 
-          ## AR1 fitted with ML
+          ## ARMA fitted with ML
           mod <- gls(mod_form_quadratic, data = dat, method = "ML", correlation = cor_dat)
           used_formula <- mod_form_quadratic
 
