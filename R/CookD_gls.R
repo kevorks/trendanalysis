@@ -1,14 +1,14 @@
+#' Modified version of predictmeans::CookD
+#'
+#' @inheritParams predictmeans::CookD
+#' @param used_formula Formula used when fitting the model
+#' @param cor_structure correlation structure used when fitting the
+#' @param data data used for the fit
+#' @details Rather quick and dirty method; not exported function from package
+#' predictmeans is used. Maybe better implementation if scoping is adapted.
 #' Copy of predictmeans::CookD, but with ability to include the used formula
 #' and correlation structure so that the update function works. The model needs
 #' to be fitted with ML.
-#'
-#' @inheritParams predictmeans::CookD
-#' @param used_formula formula used when fitting the model
-#' @param cor_structure correlation structure used when fitting the
-#' @param data data used for the fit
-#'
-#' @details Rather quick and dirty method; not exported function from package
-#' predictmeans is used. Maybe better implementation if scoping is adapted.
 #' @importFrom grDevices dev.new
 #' @importFrom graphics points text
 #' @importFrom stats update vcov

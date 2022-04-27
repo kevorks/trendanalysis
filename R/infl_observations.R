@@ -14,9 +14,10 @@ infl_observations <- function(mod, threshold = 0.5, ...) {
 ##' @param mod method used is lm
 ##' @param threshold level of significance
 ##' @param data data which are used to fit the model
-##' @param ... placeholder
+##' @param ... Takes any number of named or unnamed arguments
 ##' @importFrom stats cooks.distance
 infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
+  f_r <- names(data[1])
   # calculate Cook's distance
   cooks_distance <- cooks.distance(mod)
   # determine index of noticeable observations
@@ -26,7 +27,7 @@ infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
   # determine the value of noticeable observations
   values <- mod$model[index, 1]
   # determine the year of noticeable observations
-  year <- data[index, "Jahr"]
+  year <- data[index, f_r]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,
@@ -42,6 +43,7 @@ infl_observations.lm <- function(mod, threshold = 0.5, data, ...) {
 ##' @param varname placeholder
 infl_observations.gls <- function(mod, used_formula, cor_structure,
                                   threshold = 0.5, data, varname) {
+  f_r <- names(data[1])
   # calculate Cook's distance
   cooks_distance <- CookD_gls(mod, used_formula = used_formula,
                               cor_structure = cor_structure, data = data,
@@ -55,7 +57,7 @@ infl_observations.gls <- function(mod, used_formula, cor_structure,
   # determine values of noticeable observations
   values <- model_matrix[index, varname]
   # determine year of noticeable observations
-  year <- data[index, "Jahr"]
+  year <- data[index, f_r]
 
   list(infl_obs_index = index, infl_obs_value = values,
        infl_obs_cookd = cooks_distance_selected,

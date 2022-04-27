@@ -1,8 +1,12 @@
-globalVariables(c("Jahr", "prediction"))
+globalVariables(c("prediction"))
 
 ##' Calculate the model
-##' @param dat data.frame with data (Colnames Time, Jahr, ID must be available)
-##' @param varname String with variablenames
+##' @describe Core of the trenda package. Data is run through a predefined
+##' path of decicions based on p-values and other assumptions. See Vignette for
+##' a details and flowchart
+##' @param dat data.frame with data (Colnames Time, ID must be available
+##' the first column is taken to be a continuous time series)
+##' @param varname String with variablename
 ##' @param alpha Alphavalue for area of rejection
 ##' @importFrom stats as.formula lm
 ##' @importFrom car dwt
@@ -26,7 +30,7 @@ fit_trend <- function(dat, varname, alpha = 0.05){
   }
 
   ## Durbin-Watson-Test
-  DW <- dwt(lm(mod_form, data = dat), max.lag = 2) # check if AR1 equal to AR2
+  DW <- dwt(lm(mod_form, data = dat), max.lag = 2)
 
   cor_dat <- NULL
   # In some extreme cases it is possible for all values to be equal (or. 0)

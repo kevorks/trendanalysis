@@ -9,15 +9,29 @@ compute_trend(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
 \arguments{
 \item{dat}{Dataset}
 
-\item{varname}{list with variablenames from the dataset}
+\item{varname}{name of the variable to be analyzed}
 
-\item{log_trans}{logical indicates if data is log-transformed}
+\item{log_trans}{logical. indicates if data was log-transformed in a
+preparation process beforehand}
 
-\item{calc_infl_obs}{logical includes influential observations}
+\item{calc_infl_obs}{logical. calculates influential observations using
+Cook's Distance. If used by its own influential observations are not removed}
 }
 \value{
-A list with trendgraphs, variablenames, model and information about the results
+A list with trendgraph, variablenames, detailed information about
+the model and information about the results
 }
 \description{
 Checks whether enough data is available and runs the model
+}
+\examples{
+rnd_preci <- data.frame(Year = c(1991:2020),
+                              precip_mm = rnorm(30, 770, 50),
+                               height_m = c(rnorm(10, 10, 1), 100,
+                               rnorm(9, 15, 1), rnorm(10, 20, 1)))
+
+           #ID and Time have to be added to the data frame
+           rnd_preci$ID <- 1
+           rnd_preci["Time"] <- rnd_preci[1] - min(rnd_preci[1])
+           trenda:::compute_trend(rnd_preci, "height_m")
 }

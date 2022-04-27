@@ -2,7 +2,7 @@
 % Please edit documentation in R/trenda_obs.R
 \name{trenda_obs}
 \alias{trenda_obs}
-\title{Function to calculate trend analyses (without influential observations)}
+\title{Perform trend analyses on continous time series climate related data.}
 \usage{
 trenda_obs(
   data_dir,
@@ -13,10 +13,14 @@ trenda_obs(
 )
 }
 \arguments{
-\item{data_dir}{directory where the data is stored}
+\item{data_dir}{Directory where data is stored. The function requires data to
+be stored in a comma delimited csv file format and therefore only creates a
+list of csv files from the specified folder.}
 
-\item{log_trans}{logical if log-transformed values were used (TRUE leads to
-the adjustments for plot function)}
+\item{log_trans}{logical. Set to TRUE if data is already log10-transformed.
+If create_dir = TRUE a new folder named “_results_standard_log” will be created.
+Observables will be transformed back to their original form and plots will be
+adjusted for normal values.}
 
 \item{create_dir}{logical. Creates a subfolder in the data_dir specified path if set to TRUE. Print to console if set to FALSE
 If log_trans and calc_infl_obs is set to TRUE the following folders are created:
@@ -39,10 +43,12 @@ the function does not return a value but stores the plot and table in
 the assigned directories
 }
 \description{
-Second main function of package trenda. Should only be executed
-after the function trenda was performed on data and influential observations
-were determined. trenda_obs removes those influential observations and runs
-the analysis again
+Used to reevaluate the findings produced by trenda_dir() when
+calc_infl_obs is set to FALSE. Should only be executed
+after the function trenda_dir() was performed on data and influential observations
+were determined. Also requires the ResTab csv file to work.
+trenda_obs removes those influential observations and runs
+the analysis again and places those findings
 }
 \details{
 Since this function needs information about influential

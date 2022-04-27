@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_phi.R
 \name{extract_phi}
 \alias{extract_phi}
-\title{Extract phi from the gls model}
+\title{Extract phi}
 \usage{
 extract_phi(mod)
 }
@@ -13,5 +13,5 @@ extract_phi(mod)
 phi parameter of correlation
 }
 \description{
-Extract phi from the gls model
+Helper function for the package trenda. Extracts phi value
 }

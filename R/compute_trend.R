@@ -1,24 +1,38 @@
 ##' Calculates the trend for data and variables
 ##' @description Checks whether enough data is available and runs the model
 ##' @param dat Dataset
-##' @param varname list with variablenames from the dataset
-##' @param log_trans logical indicates if data is log-transformed
-##' @param calc_infl_obs logical includes influential observations
+##' @param varname name of the variable to be analyzed
+##' @param log_trans logical. indicates if data was log-transformed in a
+##' preparation process beforehand
+##' @param calc_infl_obs logical. calculates influential observations using
+##' Cook's Distance. If used by its own influential observations are not removed
 ##' @importFrom stats na.omit
 ##' @importFrom ggplot2 ggplot geom_point aes_string
-##' @return A list with trendgraphs, variablenames, model and information about the results
+##' @return A list with trendgraph, variablenames, detailed information about
+##' the model and information about the results
+##' @examples rnd_preci <- data.frame(Year = c(1991:2020),
+##'                               precip_mm = rnorm(30, 770, 50),
+#'                                height_m = c(rnorm(10, 10, 1), 100,
+#'                                rnorm(9, 15, 1), rnorm(10, 20, 1)))
+#'
+#'            #ID and Time have to be added to the data frame
+#'            rnd_preci$ID <- 1
+#'            rnd_preci["Time"] <- rnd_preci[1] - min(rnd_preci[1])
+#'            trenda:::compute_trend(rnd_preci, "height_m")
 compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE){
+
 
   ## Code variable as numeric
   dat[, varname] <- as.numeric(dat[ ,varname])
-  dat <- na.omit(dat[, c("Time", "Jahr", "ID", varname)])
+  f_r <- names(dat[1])
+  dat <- na.omit(dat[, c(f_r, "Time", "ID", varname)])
 
   ## Check if enough datapoints are available
   enough_data <- check_n(dat[, varname, drop = TRUE])
 
   ## Results if not enough data is available
   if (!enough_data) {
-    return(list(plot = ggplot(dat) + geom_point(aes_string(x = "Jahr", y = varname)),
+    return(list(plot = ggplot(dat) + geom_point(aes_string(x = f_r, y = varname)),
                 varname = varname,
                 mod = NULL, trend = "No trend analysis possible",
                 phi = c(NA, NA),
@@ -56,3 +70,4 @@ compute_trend <- function(dat, varname, log_trans = FALSE, calc_infl_obs = TRUE)
        infl_obs_cookd = paste(infl_obs[[3]], collapse = ", "),
        infl_obs_year = paste(infl_obs[[4]], collapse = ", "))
 }
+

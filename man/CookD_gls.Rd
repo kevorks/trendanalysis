@@ -2,9 +2,7 @@
 % Please edit documentation in R/CookD_gls.R
 \name{CookD_gls}
 \alias{CookD_gls}
-\title{Copy of predictmeans::CookD, but with ability to include the used formula
-and correlation structure so that the update function works. The model needs
-to be fitted with ML.}
+\title{Modified version of predictmeans::CookD}
 \usage{
 CookD_gls(
   model,
@@ -38,7 +36,7 @@ Name (in "quotes") for indicating how observations are deleted for Cook's distan
 A logical variable to indicate whether to print graph in a new window. The default value is TRUE.
 }
 
-\item{used_formula}{formula used when fitting the model}
+\item{used_formula}{Formula used when fitting the model}
 
 \item{cor_structure}{correlation structure used when fitting the}
 
@@ -48,11 +46,12 @@ A logical variable to indicate whether to print graph in a new window. The defau
 vector with Cook's distance
 }
 \description{
-Copy of predictmeans::CookD, but with ability to include the used formula
-and correlation structure so that the update function works. The model needs
-to be fitted with ML.
+Modified version of predictmeans::CookD
 }
 \details{
 Rather quick and dirty method; not exported function from package
 predictmeans is used. Maybe better implementation if scoping is adapted.
+Copy of predictmeans::CookD, but with ability to include the used formula
+and correlation structure so that the update function works. The model needs
+to be fitted with ML.
 }

@@ -1,4 +1,5 @@
-##' Extract phi from the gls model
+##' Extract phi
+##' @description Helper function for the package trenda. Extracts phi value
 ##' @param mod gls model
 ##' @importFrom stats coef
 ##' @return phi parameter of correlation

@@ -13,7 +13,7 @@
 
 \item{data}{data which are used to fit the model}
 
-\item{...}{placeholder}
+\item{...}{Takes any number of named or unnamed arguments}
 }
 \description{
 Used in method infl_observations as lm model

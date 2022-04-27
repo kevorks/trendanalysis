@@ -1,3 +1,5 @@
+#' Unexported method for retrieving parameters from package preditmeans
+#' @description Used in package trenda. Required in function CookD_gls
 mymodelparm_default_imp <- function (model, coef. = coef, vcov. = vcov, df = NULL, ...)
 {
   beta <- try(coef.(model))

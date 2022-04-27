@@ -7,9 +7,10 @@
 fit_trend(dat, varname, alpha = 0.05)
 }
 \arguments{
-\item{dat}{data.frame with data (Colnames Time, Jahr, ID must be available)}
+\item{dat}{data.frame with data (Colnames Time, ID must be available
+the first column is taken to be a continuous time series)}
 
-\item{varname}{String with variablenames}
+\item{varname}{String with variablename}
 
 \item{alpha}{Alphavalue for area of rejection}
 }

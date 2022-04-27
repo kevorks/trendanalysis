@@ -11,7 +11,8 @@ plot_trend(mod, df, log_trans = FALSE)
 
 \item{df}{data}
 
-\item{log_trans}{TRUE / FALSE for log-transformed data}
+\item{log_trans}{TRUE / FALSE for log-transformed data. If data was log transformed
+in a preparation process beforehand}
 }
 \value{
 plot - object
