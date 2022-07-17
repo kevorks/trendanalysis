@@ -42,10 +42,8 @@
 #' @examples # Assuming the folder with the data is placed in the working directory.
 #' \dontrun{
 #' list.files(path = "./files_folder")
-#' }
-#' # The analysis can be started by entering the path of the folder:
-#' \dontrun{
-#' trenda_dir("./files_folder/", log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
+#' #' # The analysis can be started by entering the path of the folder:
+#' #' trenda_dir("./files_folder/", log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
 #' }
 #' @return the function does not return a value but stores the plot and table in
 #' the assigned directories
