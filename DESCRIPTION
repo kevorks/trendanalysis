@@ -1,6 +1,6 @@
 Package: trenda
 Type: Package
-Title: Trenda: Trend Detection in Time Series
+Title: Trend Detection in Time Series
 Version: 1.0.0
 Author: Maxim Lorenz, Sevag Kevork
 Maintainer: Maxim Lorenz <maxim.lawrenz@gmail.com>
