@@ -1,6 +1,5 @@
 #' Function to perform trend analyses in time series and identify outliers using
 #' Cook's Distance
-#'
 #' @description performs a series of analysis to find trends
 #' in time-series related data by first checking the number of observations,
 #' performing the Generalized Durbin-Watson-Test to test for autocorrelation,
