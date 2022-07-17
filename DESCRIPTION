@@ -1,10 +1,10 @@
 Package: trenda
 Type: Package
-Title: trend analysis in climate change related data
+Title: trenda: trend detection in time series
 Version: 1.0.0
 Author: Maxim Lorenz, Sevag Kevork
 Maintainer: Maxim Lorenz <maxim.lawrenz@gmail.com>
-Description: Performs analysis in continuousous time series related data.
+Description: Robust method for determening trends in climate change related data
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
