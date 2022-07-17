@@ -187,12 +187,9 @@ if(calc_infl_obs) {
 }
 
 if (calc_infl_obs){
-  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
-  ResTab2 = data.frame(apply(ResTab2, 2, gsub, patt="\\.", replace=","))
   list(ResTab,
        ResTab2)
 } else {
-  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
   ResTab
 }
 }
