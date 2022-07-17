@@ -6,16 +6,16 @@
 #' performing the Generalized Durbin-Watson-Test to test for autocorrelation,
 #' performing AR(1) or ARMA to get the correlation structure before performing
 #' a GLS and further deciding on the trends of an observation by looking at significance
-#' and
-#' @param df data where data is stored. The function requires data to
-#' be stored in a comma delimited csv file format and therefore only creates a
+#' and beta values
+#' @param df file where data is stored. The function requires data to
+#' be stored in a semicolon delimited csv file format and therefore only creates a
 #' list of csv files from the specified folder.
 #' @param log_trans logical. Set to TRUE if data is already log10-transformed.
-#' If create_dir =TRUE a new folder named “_results_standard_log” will be created.
+#' If create_dir = TRUE a new folder named “_results_standard_log” will be created.
 #' Observables will be transformed back to their original form and plots will be
 #' adjusted for normal values.
 #' @param plot_graphs logical. Set to TRUE by default. Will plot to the environment.
-#'The plots summarizes the information about the data the trend
+#' The plots summarizes the information about the data the trend
 #' @param calc_infl_obs logical: If set to TRUE the function will calculate the
 #' influential observations using Cook's Distance. The data is stored in a list
 #' with information
@@ -117,10 +117,9 @@ trenda <- function(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = F
   z <<- z + 1
 
 }
-result_infl <- ResTab
+
 
 })
-
 result_infl <- ResTab
 m <- 1
 if(calc_infl_obs) {
@@ -167,10 +166,10 @@ if(calc_infl_obs) {
         ResTab2[m,"Phi2"] <<- res2$phi[2]
         ResTab2[m,"Trend"] <<- res2$trend
         ResTab2[m,"rSquared"] <<- res2$rsq
-        ResTab2[m, "observations_to_remove_index"] <<- ""
-        ResTab2[m, "observations_to_remove_value"] <<- ""
-        ResTab2[m, "cooks_distance_of_observation"] <<- ""
-        ResTab2[m, "observations_to_remove_year"] <<- ""
+        ResTab2[m, "observations_to_remove_index"] <<- res2$infl_obs_index
+        ResTab2[m, "observations_to_remove_value"] <<- res2$infl_obs_value
+        ResTab2[m, "cooks_distance_of_observation"] <<- res2$infl_obs_cookd
+        ResTab2[m, "observations_to_remove_year"] <<- res2$infl_obs_year
 
         if (log_trans) {
           name_file <- substr(trend_file, start = 6, stop = nchar(trend_file) - 4)
@@ -186,12 +185,15 @@ if(calc_infl_obs) {
     }
   })
 
-
 }
+
 if (calc_infl_obs){
-  list(ResTab = ResTab,
-       ResTab2 = ResTab2)
+  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
+  ResTab2 = data.frame(apply(ResTab2, 2, gsub, patt="\\.", replace=","))
+  list(ResTab,
+       ResTab2)
 } else {
-  print(ResTab)
+  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
+  ResTab
 }
 }

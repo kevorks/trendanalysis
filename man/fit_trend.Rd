@@ -18,5 +18,7 @@ the first column is taken to be a continuous time series)}
 lm or gls - model (linear, ML)
 }
 \description{
-Calculate the model
+Core of the trenda package. Data is run through a predefined
+path of decicions based on p-values and other assumptions. See Vignette for
+a details and flowchart
 }

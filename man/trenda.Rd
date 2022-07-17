@@ -8,15 +8,15 @@ Cook's Distance}
 trenda(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = FALSE)
 }
 \arguments{
-\item{df}{data where data is stored. The function requires data to
-be stored in a comma delimited csv file format and therefore only creates a
+\item{df}{file where data is stored. The function requires data to
+be stored in a semicolon delimited csv file format and therefore only creates a
 list of csv files from the specified folder.}
 
 \item{plot_graphs}{logical. Set to TRUE by default. Will plot to the environment.
 The plots summarizes the information about the data the trend}
 
 \item{log_trans}{logical. Set to TRUE if data is already log10-transformed.
-If create_dir =TRUE a new folder named “_results_standard_log” will be created.
+If create_dir = TRUE a new folder named “_results_standard_log” will be created.
 Observables will be transformed back to their original form and plots will be
 adjusted for normal values.}
 
@@ -37,7 +37,7 @@ in time-series related data by first checking the number of observations,
 performing the Generalized Durbin-Watson-Test to test for autocorrelation,
 performing AR(1) or ARMA to get the correlation structure before performing
 a GLS and further deciding on the trends of an observation by looking at significance
-and
+and beta values
 }
 \details{
 The first column of the data frame is

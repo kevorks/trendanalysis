@@ -33,9 +33,9 @@ plot_trend <- function(mod, df, log_trans = FALSE) {
     geom_point(aes_string(y = target)) +
     geom_line(aes_string(y = target), alpha = 0.3) +
     geom_line(aes(y = prediction), color = "darkgreen", size = 1.3) +
-    ggtitle(substitute(paste(trend, ", Phi = (", p1,", ", p2, "), Modell = ", modell, ", ", R^2, " = ", rsquared),
-                       list(trend = trend[[4]], p1 = phi[1], p2 = phi[2], modell = class(mod)[1], rsquared = formatC(max(0, rsq), format = "f", digits = 4)))) +
-    scale_x_continuous(breaks = round(seq(min(df[f_r]), max(df[f_r]), by = 1), 0)) +
+    ggtitle(substitute(paste(trend, ", Phi = (", p1,", ", p2, "), Model = ", model, ", ", R^2, " = ", rsquared),
+                       list(trend = trend[[4]], p1 = phi[1], p2 = phi[2], model = class(mod)[1], rsquared = formatC(max(0, rsq), format = "f", digits = 4)))) +
+    scale_x_continuous(breaks = round(seq(min(df[f_r]), max(df[f_r]), by = 5), 0)) +
     ylab(gsub("(\\_)+", "\\ ", target)) +
     theme(plot.title = element_text(size = 24, vjust = 1.5),
           axis.title.x = element_text(size = 22, vjust = -.3),

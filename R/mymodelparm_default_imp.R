@@ -1,5 +1,10 @@
 #' Unexported method for retrieving parameters from package preditmeans
 #' @description Used in package trenda. Required in function CookD_gls
+#' @param model model used in trenda
+#' @param coef. coef used in trenda
+#' @param vcov. calculated variance-covariance matrix for the fitted model object
+#' @param df empty data frame
+#' @param ... further parameters
 mymodelparm_default_imp <- function (model, coef. = coef, vcov. = vcov, df = NULL, ...)
 {
   beta <- try(coef.(model))

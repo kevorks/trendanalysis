@@ -88,7 +88,7 @@ trenda_dir <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl
     print(sprintf("Data:----------%s", trend_file))
 
     # read dataset
-    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";")
+    dat <- read.csv2(sprintf("%s%s", data_dir, trend_file), header = TRUE, sep = ";", fileEncoding = "WINDOWS-1252")
     f_r <- names(dat[1])
     # show structure of data to be analysed
     print(str(dat))
@@ -145,6 +145,7 @@ trenda_dir <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl
 
   })
   #summary(ResTab)
+  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
   if (create_dir) {
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),

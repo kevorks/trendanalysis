@@ -1,7 +1,5 @@
-globalVariables(c("prediction"))
-
 ##' Calculate the model
-##' @describe Core of the trenda package. Data is run through a predefined
+##' @description Core of the trenda package. Data is run through a predefined
 ##' path of decicions based on p-values and other assumptions. See Vignette for
 ##' a details and flowchart
 ##' @param dat data.frame with data (Colnames Time, ID must be available

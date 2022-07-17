@@ -6,6 +6,17 @@
 \usage{
 mymodelparm_default_imp(model, coef. = coef, vcov. = vcov, df = NULL, ...)
 }
+\arguments{
+\item{model}{model used in trenda}
+
+\item{coef.}{coef used in trenda}
+
+\item{vcov.}{calculated variance-covariance matrix for the fitted model object}
+
+\item{df}{empty data frame}
+
+\item{...}{further parameters}
+}
 \description{
 Used in package trenda. Required in function CookD_gls
 }
