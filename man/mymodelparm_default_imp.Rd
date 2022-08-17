@@ -2,7 +2,8 @@
 % Please edit documentation in R/mymodelparm_default_imp.R
 \name{mymodelparm_default_imp}
 \alias{mymodelparm_default_imp}
-\title{Unexported method for retrieving parameters from package preditmeans}
+\title{Unexported method for retrieving parameters from package predictmeans and adjusted
+for trenda}
 \usage{
 mymodelparm_default_imp(model, coef. = coef, vcov. = vcov, df = NULL, ...)
 }

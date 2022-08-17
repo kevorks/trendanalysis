@@ -1,4 +1,5 @@
-#' Unexported method for retrieving parameters from package preditmeans
+#' Unexported method for retrieving parameters from package predictmeans and adjusted
+#' for trenda
 #' @description Used in package trenda. Required in function CookD_gls
 #' @param model model used in trenda
 #' @param coef. coef used in trenda
