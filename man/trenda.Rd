@@ -56,11 +56,11 @@ to get the correlation structure for GLS.
 \examples{
 ## Generate a data frame with to variables. One value of height_m is set
 ## to be extremely out of bound to illustrate how trenda() handles outliers.
-rnd_preci <- data.frame(Year = c(1991:2020), precip_mm = rnorm(30, 770, 50),
+\dontrun{ rnd_preci <- data.frame(Year = c(1991:2020), precip_mm = rnorm(30, 770, 50),
                                height_m = c(rnorm(10, 10, 1), 100,
                                rnorm(9, 15, 1),
                                rnorm(10, 20, 1)))
 
 trenda(rnd_preci, plot_graphs = TRUE, log_trans = FALSE, calc_infl_obs = TRUE)
-
+}
 }
