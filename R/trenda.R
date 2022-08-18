@@ -72,7 +72,7 @@ trenda <- function(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = F
   )
   list <- list()
 
-  set.seed(1)
+  #set.seed(1)
 
   f_r <- names(df[1])
   z <- 1

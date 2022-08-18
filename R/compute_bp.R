@@ -111,7 +111,6 @@ compute_bp <- function(dat, varname, type = "BIC",
       row.names(cuts) <- 1:nrow(cuts)
     } else if (n.psi.ok == 0) {
       cuts <- NULL
-      print("You are here 1")
     }
 
     r <- list(BIC.values = BIC.values, n.psi = n.psi.ok)
@@ -128,7 +127,7 @@ compute_bp <- function(dat, varname, type = "BIC",
       n.psi.ok <- which.min(BIC.values[2:length(BIC.values)])
     }
     #return(ris)
-    # psi is predefined and passed on to segmented by a vector. this suggests a segmenteation at the specific position
+    # psi is predefined and passed on to segmented by a vector. this suggests a segmentation at the specific position
     # and is checked by segmented
     if (msg) {
       if(type == "BIC")
@@ -176,8 +175,6 @@ compute_bp <- function(dat, varname, type = "BIC",
       print(cuts)
     }
     cat("_____________________________ \n")
-
-
         if (plot) {
           #n.psi.ok = length(psi)
           ploti(dat, varname = varname, cuts = cuts, n.psi.ok = n.psi.ok)
@@ -205,21 +202,20 @@ ploti <- function(dat, varname, cuts, n.psi.ok) {
     geom_point(alpha = 0.5) +
     labs(title = paste(varname, "|", "Anz. BP: ", n.psi.ok))
   #geom_line(aes_string(data = ris.model, x = names(dat[1]), y = ris.model$Elevation), colour = "red")
-  p <- ggplotly(p) %>% config(displayModeBar = FALSE)
-  p
+  ggplotly(p) %>% config(displayModeBar = FALSE)
+  #p
   } else if (n.psi.ok == 0) {
     p <- ggplot(dat, aes_string(x = names(dat[1]), y = varname)) +
       geom_line() + theme_bw() + ylab(varname) + xlab(names(dat[1])) +
       #ggtitle(paste(varname, "Test", "stuff")) +
-      suppressWarnings(geom_smooth(method = "loess", formula = y ~ x,  se = FALSE,
+      suppressWarnings(geom_smooth(method = "lm", formula = y ~ x,  se = FALSE,
                  data = dat)) +
       scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
       geom_point(alpha = 0.5) +
       labs(title = paste("Varname: ", varname,"|", "Keine BP: ", n.psi.ok))
     #p <- p + labs(subtitle = "test sub")
 
-    p <- ggplotly(p) %>% config(displayModeBar = FALSE)
-    p
+    ggplotly(p) %>% config(displayModeBar = FALSE)
   }
 }
 
