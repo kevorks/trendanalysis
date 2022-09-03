@@ -8,8 +8,8 @@ Description: Performs a series of analysis to find trends in time-series related
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
-Imports: predictmeans, ggplot2, grDevices, stats, utils, car, nlme
+RoxygenNote: 7.2.1
+Imports: predictmeans, ggplot2, grDevices, stats, utils, car, nlme, segmented, plotly
 Suggests: 
     knitr,
     rmarkdown

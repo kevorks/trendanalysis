@@ -183,7 +183,6 @@ if(calc_infl_obs) {
       }
     }
   })
-
 }
 
 if (calc_infl_obs){

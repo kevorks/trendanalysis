@@ -137,9 +137,7 @@ trenda_dir <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl
       dev.off()
       }
       z <<- z + 1
-
     }
-
   })
   if (create_dir) {
   write.table(ResTab,

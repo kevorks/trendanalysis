@@ -12,7 +12,8 @@ compute_bp(
   psi = NULL,
   npsi = 2,
   msg = TRUE,
-  plot = TRUE
+  plot = TRUE,
+  return.fit = FALSE
 )
 }
 \arguments{

@@ -11,7 +11,8 @@ trenda_bp(
   psi = NULL,
   npsi = 2,
   msg = TRUE,
-  plot = TRUE
+  plot = TRUE,
+  return.fit = FALSE
 )
 }
 \arguments{
@@ -32,9 +33,12 @@ The starting values will be internally computed via the quantiles or equally spa
 as specified in argument quant in seg.control. npsi can be missing and npsi=1
 is assumed for all variables specified in seg.Z. If psi is provided, npsi is ignored.}
 
-\item{msg}{logical. Indicates if results are displayed}
+\item{msg}{logical. Indicates if results should be displayed}
 
-\item{plot}{Plots a graph using plotly}
+\item{plot}{Plots the graph}
+}
+\value{
+Returns a list containing the information
 }
 \description{
 Takes all observations from 2:n (since first column is taken as x-achis)
