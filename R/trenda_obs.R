@@ -49,8 +49,8 @@ trenda_obs <- function(data_dir, log_trans = FALSE, create_dir = TRUE, res_tab_f
   trend_files <- list.files(data_dir, pattern = "*.csv")
 
   ResTab <- data.frame(matrix(ncol = 13, nrow = 0))
-  colnames(ResTab) <- c("File", "Index", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
-                        "Trend", "rSquared", "observations_to_remove_index",
+  colnames(ResTab) <- c("File", "Index", "Trend", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
+                        "rSquared", "observations_to_remove_index",
                         "observations_to_remove_value",
                         "cooks_distance_of_observation",
                         "observations_to_remove_year"
