@@ -1,15 +1,16 @@
 Package: trenda
 Type: Package
-Title: trend analysis in climate change related data
+Title: Trend Detection in Time Series
 Version: 1.0.0
 Author: Maxim Lorenz, Sevag Kevork
 Maintainer: Maxim Lorenz <maxim.lawrenz@gmail.com>
-Description: Performs analysis in continuousous time series related data.
+Description: Performs a series of analysis to find trends in time-series related data by checking the number of observations, performing a DW-Test to test for autocorrelation and retrieving the correlation structure to eventually perform a GLS and further deciding on the trends. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.1
 Imports: predictmeans, ggplot2, grDevices, stats, utils, car, nlme
+Imports: predictmeans, ggplot2, grDevices, stats, utils, car, nlme, segmented, plotly
 Suggests: 
     knitr,
     rmarkdown

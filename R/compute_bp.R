@@ -16,26 +16,28 @@
 ##' is assumed for all variables specified in seg.Z. If psi is provided, npsi is ignored.
 ##' @param msg logical. Indicates if results should be displayed
 ##' @param plot Plots the graph
+##' @import dplyr
+##' @import plotly
 ##' @return Returns a list containing the information
 ##' @export
 trenda_bp <- function(dat, type = "BIC",
                       control = seg.control(n.boot = 50, it.max = 1000, alpha = 0.1),
                       psi = NULL,
                       npsi = 2,
-                      msg = TRUE,
+                      msg = FALSE,
                       plot = TRUE,
                       return.fit = FALSE) {
   if (nrow(dat) < 30) {
     stop("Less than 30 observations")
   }
   if (length(psi) > 3 | npsi > 3) {
-    warning("Psi and npsi should not be greater than 3")
+    warning("Psi and npsi should not be greater than 3 or psi longer than 3 elements")
   }
   varnames <- names(dat)
   varnames <- setdiff(names(dat), names(dat[1]))
   biglist <- list()
   for (varname in varnames) {
-    print(varname)
+    #print(varname)
     if (return.fit) {
     t <- compute_bp(dat,
                varname,
@@ -61,10 +63,11 @@ trenda_bp <- function(dat, type = "BIC",
       }
 
   }
-  if (length(biglist) > 0) {
-  biglist
+  if (length(biglist) > 0 | return.fit == TRUE) {
+  return(biglist)
   }
 }
+
 
 ##' Search for breakpoints using the segmented package. Picking the best model with BIC
 ##'

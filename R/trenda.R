@@ -186,9 +186,16 @@ if(calc_infl_obs) {
 }
 
 if (calc_infl_obs){
+<<<<<<< HEAD
   return(list(ResTab,
        ResTab2))
 } else {
   return(ResTab)
+=======
+  list(ResTab,
+       ResTab2)
+} else {
+  ResTab
+>>>>>>> ea7ff0bf3f7d048423394ee89a22e69192f09c40
 }
 }

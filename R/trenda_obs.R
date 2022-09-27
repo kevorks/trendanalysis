@@ -114,12 +114,12 @@ trenda_obs <- function(data_dir, log_trans = FALSE, create_dir = TRUE, res_tab_f
         ## save results
         ResTab[z,"File"] <<- trend_file
         ResTab[z,"Index"] <<- varname
+        ResTab[z,"Trend"] <<- res$trend
         ResTab[z,"Beta0"] <<- round(as.numeric(res$beta[1]),4)
         ResTab[z,"Beta1"] <<- round(as.numeric(res$beta[2]),4)
         ResTab[z,"Beta2"] <<- round(as.numeric(res$beta[3]),4)
         ResTab[z,"Phi1"] <<- res$phi[1]
         ResTab[z,"Phi2"] <<- res$phi[2]
-        ResTab[z,"Trend"] <<- res$trend
         ResTab[z,"rSquared"] <<- res$rsq
 
         ## save trend graphs
