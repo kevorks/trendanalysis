@@ -25,7 +25,7 @@ the model and information about the results
 Checks whether enough data is available and runs the model
 }
 \examples{
-rnd_preci <- data.frame(Year = c(1991:2020),
+\dontrun{ rnd_preci <- data.frame(Year = c(1991:2020),
                               precip_mm = rnorm(30, 770, 50),
                                height_m = c(rnorm(10, 10, 1), 100,
                                rnorm(9, 15, 1), rnorm(10, 20, 1)))
@@ -34,4 +34,5 @@ rnd_preci <- data.frame(Year = c(1991:2020),
            rnd_preci$ID <- 1
            rnd_preci["Time"] <- rnd_preci[1] - min(rnd_preci[1])
            trenda:::compute_trend(rnd_preci, "height_m")
+           }
 }

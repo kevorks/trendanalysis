@@ -1,6 +1,5 @@
 #' Function to perform trend analyses in time series and identify outliers using
 #' Cook's Distance
-#'
 #' @description performs a series of analysis to find trends
 #' in time-series related data by first checking the number of observations,
 #' performing the Generalized Durbin-Watson-Test to test for autocorrelation,
@@ -40,13 +39,13 @@
 #' @examples
 #' ## Generate a data frame with to variables. One value of height_m is set
 #' ## to be extremely out of bound to illustrate how trenda() handles outliers.
-#' rnd_preci <- data.frame(Year = c(1991:2020), precip_mm = rnorm(30, 770, 50),
+#'\dontrun{ rnd_preci <- data.frame(Year = c(1991:2020), precip_mm = rnorm(30, 770, 50),
 #'                                height_m = c(rnorm(10, 10, 1), 100,
 #'                                rnorm(9, 15, 1),
 #'                                rnorm(10, 20, 1)))
 #'
 #' trenda(rnd_preci, plot_graphs = TRUE, log_trans = FALSE, calc_infl_obs = TRUE)
-#'
+#' }
 #' @importFrom utils str write.table read.table read.csv2
 #' @importFrom grDevices jpeg dev.off
 #' @export
@@ -57,23 +56,23 @@ trenda <- function(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = F
   trend_files <- deparse(substitute(df))
   # Create empty data frame
   ResTab <- data.frame(matrix(ncol = 13, nrow = 0))
-  colnames(ResTab) <- c("File", "Index", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
-                        "Trend", "rSquared", "observations_to_remove_index",
+  colnames(ResTab) <- c("File", "Index", "Trend", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
+                        "rSquared", "observations_to_remove_index",
                         "observations_to_remove_value",
                         "cooks_distance_of_observation",
                         "observations_to_remove_year"
   )
   # Create empty data frame for calc_infl_obs = TRUE
   ResTab2 <- data.frame(matrix(ncol = 13, nrow = 0))
-  colnames(ResTab2) <- c("File", "Index", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
-                        "Trend", "rSquared", "observations_to_remove_index",
+  colnames(ResTab2) <- c("File", "Index","Trend", "Beta0", "Beta1", "Beta2", "Phi1", "Phi2",
+                        "rSquared", "observations_to_remove_index",
                         "observations_to_remove_value",
                         "cooks_distance_of_observation",
                         "observations_to_remove_year"
   )
   list <- list()
 
-  set.seed(1)
+  #set.seed(1)
 
   f_r <- names(df[1])
   z <- 1
@@ -81,8 +80,8 @@ trenda <- function(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = F
 
   # some data cause wrong calculations if they are separated by ","
     dat <- data.frame(apply(apply(df, 2, gsub, patt=",", replace="."), 2, as.numeric))
-    print(str(dat))
-    print(all(apply(dat, 2, is.numeric)))
+    #print(str(dat))
+    #print(all(apply(dat, 2, is.numeric)))
     # Dots are replaced for the plot_trend() function
     names(dat) <- gsub("\\.", "\\_", names(dat))
     varnames <- setdiff(names(dat), c("ID", "Time", f_r))
@@ -93,18 +92,18 @@ trenda <- function(df, plot_graphs = FALSE, log_trans = FALSE, calc_infl_obs = F
 
     for(varname in varnames) {
 
-    print(varname)
+    #print(varname)
     #calculate trend
     res <- compute_trend(dat, varname, log_trans = log_trans, calc_infl_obs = calc_infl_obs)
 
     ResTab[z, "File"] <<- trend_file
     ResTab[z, "Index"] <<- varname
+    ResTab[z, "Trend"] <<- res$trend
     ResTab[z, "Beta0"] <<- round(as.numeric(res$beta[1]),4)
     ResTab[z, "Beta1"] <<- round(as.numeric(res$beta[2]),4)
     ResTab[z, "Beta2"] <<- round(as.numeric(res$beta[3]),4)
     ResTab[z, "Phi1"] <<- res$phi[1]
     ResTab[z, "Phi2"] <<- res$phi[2]
-    ResTab[z, "Trend"] <<- res$trend
     ResTab[z, "rSquared"] <<- res$rsq
     ResTab[z, "observations_to_remove_index"] <<- res$infl_obs_index
     ResTab[z, "observations_to_remove_value"] <<- res$infl_obs_value
@@ -159,12 +158,12 @@ if(calc_infl_obs) {
 
         ResTab2[m,"File"] <<- trend_file
         ResTab2[m,"Index"] <<- varname
+        ResTab2[m,"Trend"] <<- res2$trend
         ResTab2[m,"Beta0"] <<- round(as.numeric(res2$beta[1]),4)
         ResTab2[m,"Beta1"] <<- round(as.numeric(res2$beta[2]),4)
         ResTab2[m,"Beta2"] <<- round(as.numeric(res2$beta[3]),4)
         ResTab2[m,"Phi1"] <<- res2$phi[1]
         ResTab2[m,"Phi2"] <<- res2$phi[2]
-        ResTab2[m,"Trend"] <<- res2$trend
         ResTab2[m,"rSquared"] <<- res2$rsq
         ResTab2[m, "observations_to_remove_index"] <<- res2$infl_obs_index
         ResTab2[m, "observations_to_remove_value"] <<- res2$infl_obs_value
@@ -184,16 +183,12 @@ if(calc_infl_obs) {
       }
     }
   })
-
 }
 
 if (calc_infl_obs){
-  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
-  ResTab2 = data.frame(apply(ResTab2, 2, gsub, patt="\\.", replace=","))
-  list(ResTab,
-       ResTab2)
+  return(list(ResTab,
+       ResTab2))
 } else {
-  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
-  ResTab
+  return(ResTab)
 }
 }

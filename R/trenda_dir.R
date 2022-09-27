@@ -1,5 +1,4 @@
 #' Perform trend analyses in time series related climate related data.
-#'
 #' @description trenda_dir() is a use-case specific addition to the function trenda().
 #' It was created for bulk-processing time series related data stored as
 #' comma delimited csv files in a folder.
@@ -43,10 +42,8 @@
 #' @examples # Assuming the folder with the data is placed in the working directory.
 #' \dontrun{
 #' list.files(path = "./files_folder")
-#' }
-#' # The analysis can be started by entering the path of the folder:
-#' \dontrun{
-#' trenda_dir("./files_folder/", log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
+#' #' # The analysis can be started by entering the path of the folder:
+#' #' trenda_dir("./files_folder/", log_trans = FALSE, create_dir = TRUE, calc_infl_obs = TRUE)
 #' }
 #' @return the function does not return a value but stores the plot and table in
 #' the assigned directories
@@ -140,24 +137,19 @@ trenda_dir <- function(data_dir, log_trans = FALSE, create_dir = TRUE, calc_infl
       dev.off()
       }
       z <<- z + 1
-
     }
-
   })
-  #summary(ResTab)
-  ResTab = data.frame(apply(ResTab, 2, gsub, patt="\\.", replace=","))
   if (create_dir) {
   write.table(ResTab,
               paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"),
               sep = ";", dec = ",", row.names = FALSE)
   } else {
-    #ResTab <- ResTab
     return(ResTab)
   }
   # check if all files were used
   trend_files == unique(ResTab$File)
   #perform trenda_obs
   if (calc_infl_obs) {
-  trenda_obs(data_dir, log_trans, calc_infl_obs = FALSE, create_dir = create_dir, res_tab_file = paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"))
+  trenda_obs(data_dir, log_trans, calc_infl_obs, create_dir = create_dir, res_tab_file = paste0(result_name, format(Sys.Date(), "%Y-%m-%d"), ".csv"))
   }
 }
